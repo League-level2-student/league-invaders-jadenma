@@ -42,4 +42,5 @@ public class Projectile extends GameObject{
 	        needImage = false;
 	    }
 	}
+	
 }
