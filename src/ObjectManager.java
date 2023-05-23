@@ -17,9 +17,11 @@ public class ObjectManager implements ActionListener {
 	
 	
 	void addProjectile(Projectile projectile) {
+		projectiles.add(projectile);
 		for (Projectile i : projectiles) {
 			update();
-			if (i.y > LeagueInvaders.LENGTH && i.y < 0) {
+//			projectiles.get(i).y-=10;
+			if (i.y > LeagueInvaders.LENGTH || i.y < 0) {
 				i.isActive = false;
 			}
 		}
@@ -36,12 +38,17 @@ public class ObjectManager implements ActionListener {
 	}
 	
 	void update() {
-		
+		for (int i = 0; i < aliens.size(); i++) {
+//			start hereeee , the alien spawns lower and lower each time, collision management
+			aliens.get(i).y+=20;
+		}
 	}
 	
 	void draw(Graphics g) {
 		rocket.draw(g);
+	//	System.out.println(projectiles.size());
 		for (Projectile i : projectiles) {
+			
 			i.draw(g);
 		}
 		for (Alien i : aliens) {
