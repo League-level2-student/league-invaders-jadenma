@@ -11,7 +11,7 @@ public class Alien extends GameObject{
 	public static boolean gotImage = false;	
 	public Alien(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed=1;
+		speed=5;
 		// TODO Auto-generated constructor stub
 		if (needImage) {
 		    loadImage ("alien.png");
@@ -19,7 +19,11 @@ public class Alien extends GameObject{
 	}
 
 	void update() {
-		
+		y+=speed;
+		if (y > LeagueInvaders.LENGTH) {
+			isActive = false;
+		}
+		super.update();
 	}
 	
 	void draw(Graphics g) {
@@ -27,7 +31,6 @@ public class Alien extends GameObject{
         ySpeed=speed;
         if (gotImage) {
         	g.drawImage(image, x, y, width, height, null);
-        	System.out.println(y);
         } else {
         	g.setColor(Color.BLUE);
         	g.fillRect(x, y, width, height);

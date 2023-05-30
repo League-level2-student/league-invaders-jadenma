@@ -10,6 +10,7 @@ public class ObjectManager implements ActionListener {
 	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	ArrayList<Alien> aliens = new ArrayList<Alien>();
 	Random random = new Random();
+	int score = 0;
 	
 	public ObjectManager(Rocketship rocket) {
 		this.rocket=rocket;
@@ -18,35 +19,26 @@ public class ObjectManager implements ActionListener {
 	
 	void addProjectile(Projectile projectile) {
 		projectiles.add(projectile);
-		for (Projectile i : projectiles) {
-			update();
-//			projectiles.get(i).y-=10;
-			if (i.y > LeagueInvaders.LENGTH || i.y < 0) {
-				i.isActive = false;
-			}
-		}
 	}
 	
 	void addAlien() {
 		aliens.add(new Alien(random.nextInt(LeagueInvaders.WIDTH),0,50,50));
-		for (int i = 0; i < aliens.size(); i++) {
-			update();
-			if (aliens.get(i).y > LeagueInvaders.LENGTH && aliens.get(i).y < 0) {
-				aliens.get(i).isActive = false;
-			}
-		}
 	}
 	
 	void update() {
 		for (int i = 0; i < aliens.size(); i++) {
-//			start hereeee , the alien spawns lower and lower each time, collision management
-			aliens.get(i).y+=20;
+			aliens.get(i).update();
 		}
+		for (Projectile eachProjectile : projectiles) {
+			eachProjectile.update();
+		}
+		checkCollision();
+		purgeObjects();
+		System.out.println(aliens.size());
 	}
 	
 	void draw(Graphics g) {
 		rocket.draw(g);
-	//	System.out.println(projectiles.size());
 		for (Projectile i : projectiles) {
 			
 			i.draw(g);
@@ -63,8 +55,30 @@ public class ObjectManager implements ActionListener {
 			}
 			alienlength--;
 		}
+		int projectilelength = projectiles.size()-1;
+		while(projectilelength >= 0) {
+			if (!projectiles.get(projectilelength).isActive) {
+				projectiles.remove(projectilelength);
+			}
+			projectilelength--;
+		}
 	}
 
+	void checkCollision() {
+		for (int i = 0; i < aliens.size(); i++) {
+			if (rocket.collisionBox.intersects(aliens.get(i).collisionBox)) {
+				rocket.isActive = false;
+				aliens.get(i).isActive = false;
+			}
+			for (int j = 0; j < projectiles.size(); j++) {
+				if (projectiles.get(j).collisionBox.intersects(aliens.get(i).collisionBox)) {
+					aliens.get(i).isActive = false;
+					projectiles.get(j).isActive = false;
+				}
+			}
+		}
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
