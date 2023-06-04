@@ -29,6 +29,22 @@ public class Rocketship extends GameObject {
 	   	}
 	}
 	
+	void update() {
+		if (x<0) {
+			x=0;
+		}
+		if (x+width > LeagueInvaders.WIDTH) {
+			x=LeagueInvaders.WIDTH-width;
+		}
+		if (y<0) {
+			y=0;
+		}
+		if (y+height > LeagueInvaders.LENGTH) {
+			y=LeagueInvaders.LENGTH-height;
+		}
+		super.update();
+		
+	}
 	public void up() {
 	     ySpeed=-speed;
 	}
