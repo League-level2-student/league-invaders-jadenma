@@ -35,7 +35,6 @@ public class ObjectManager implements ActionListener {
 		rocket.update();
 		checkCollision();
 		purgeObjects();
-		System.out.println(aliens.size());
 	}
 	
 	void draw(Graphics g) {

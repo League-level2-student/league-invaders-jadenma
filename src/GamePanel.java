@@ -52,9 +52,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		objectManager.update();
 		if (objectManager.rocket.isActive == false) {
 			currentState = END;
+	        alienSpawn.stop();
 		}
 	}
-	void updateEndState()  {}
+	void updateEndState()  {
+		
+	}
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.LENGTH);
@@ -78,6 +81,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		//finish this - images
 		
 		objectManager.draw(g);
+		g.setColor(Color.WHITE);
+		g.setFont(subtitleFont);
 		g.drawString("Score: " + objectManager.getScore(), 25, 50);
 		
 	}
@@ -110,22 +115,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-//		System.out.println(KeyEvent.VK_ENTER);
-		System.out.println(currentState);
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END) {
 		        currentState = MENU;
 		    }
-	    else if (currentState==MENU) {
-	    	currentState++;
-	    	startGame();
-	    	objectManager.rocket.isActive=true;
-	    	objectManager.rocket = new Rocketship(250, 700, 50, 50);
-	    	objectManager.score=0;
-	    }
-		    else {
-		        currentState++;
-		        alienSpawn.stop();
+		    else if (currentState==MENU) {
+		    	currentState++;
+		    	startGame();
+		    	objectManager.rocket.isActive=true;
+	    		objectManager.rocket = new Rocketship(250, 700, 50, 50);
+	    		objectManager.score=0;
+	    	
 		    }
 		}
 		if (currentState==GAME) {
